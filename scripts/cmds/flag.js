@@ -1,132 +1,135 @@
 const axios = require("axios");
+
+const USAGE_LIMIT = 15;
+const RESET_TIME = 7 * 60 * 60 * 1000; // 7 hours
+
 const baseApiUrl = async () => {
-  const base = await axios.get(
-    `https://raw.githubusercontent.com/Blankid018/D1PT0/main/baseApiUrl.json`,
-  );
-  return base.data.api;
+  const base = await axios.get("https://raw.githubusercontent.com/mahmudx7/exe/main/baseApiUrl.json");
+  return base.data.mahmud;
 };
 
 module.exports = {
   config: {
-    name: "flag",
-    aliases: ["flagGame"],
-    version: "3.0",
-    author: "Dipto",
-    countDown: 0,
+    name: "flaggame",
+    aliases: ["flag"],
+    version: "1.7",
+    author: "MahMUD",
+    countDown: 10,
     role: 0,
-    description: {
-      en: "Guess the flag name",
-    },
     category: "game",
     guide: {
-      en: "{pn}",
-    },
-  },
-  onReply: async function ({ api, event, Reply, usersData , threadsData }) {
-    const { country, attempts } = Reply;
-    const maxAttempts = 5;
-    if (event.type == "message_reply") {
-      const reply = event.body.toLowerCase();
-      const getCoin = 2 * 120.5;
-      const getExp = 1 * 121;
-      const userData = await usersData.get(event.senderID);
-      if (attempts >= maxAttempts) {
-        await api.sendMessage(
-          "🚫 | You have reached the maximum number of attempts (5).",
-          event.threadID,
-          event.messageID,
-        );
-        return;
-      }
-      if (isNaN(reply)) {
-        if (reply == country.toLowerCase()) {
-          try {
-            await api.unsendMessage(Reply.messageID);
-            await usersData.set(event.senderID, {
-              money: userData.money + getCoin,
-              exp: userData.exp + getExp,
-              data: userData.data,
-            });
-            const grp = await threadsData.get(event.threadID);
-            const userID = event.senderID;
-            if (!grp.data.flagWins) {
-              grp.data.flagWins = {};
-            }
-            if (!grp.data.flagWins[userID]) {
-              grp.data.flagWins[userID] = 0;
-            }
-            grp.data.flagWins[userID] += 1;
-            await threadsData.set(event.threadID, grp);
-          } catch (err) {
-            console.log("Error: ", err.message);
-          } finally {
-            const message = `✅ | Correct answer!\nYou have earned ${getCoin} coins and ${getExp} exp.`;
-            await api.sendMessage(message, event.threadID, event.messageID);
-          }
-        } else {
-          Reply.attempts += 1;
-          global.GoatBot.onReply.set(Reply.messageID, Reply);
-          api.sendMessage(
-            `❌ | Wrong Answer.You have ${maxAttempts - Reply.attempts} attempts left.\n✅ | Try Again baby!`,
-            event.threadID,
-            event.messageID,
-          );
-        }
-      }
+      en: "{pn} - Guess the flag to earn coins and XP!"
     }
   },
 
-  onStart: async function ({ api, args, event,threadsData }) {
-    try {
-      if (!args[0]) {
-        const response = await axios.get(
-          `${await baseApiUrl()}/flagGame?randomFlag=random`,
-        );
-        const { link, country } = response.data;
-        await api.sendMessage(
-          {
-            body: "Guess this flag name.",
-            attachment: await global.utils.getStreamFromURL(link),
-          },
-          event.threadID,
-          (error, info) => {
-            global.GoatBot.onReply.set(info.messageID, {
-              commandName: this.config.name,
-              type: "reply",
-              messageID: info.messageID,
-              author: event.senderID,
-              link,
-              country,
-              attempts: 0,
-            });
-          },
-          event.messageID,
-        );
-      }else if (args[0] === "list") {
-        const threadData = await threadsData.get(event.threadID);
-        const { data } = threadData;
-        const flagWins = data.flagWins || {};
+  onReply: async function ({ api, event, Reply, usersData }) {
+    const { flag, author } = Reply;
+    const getCoin = 500;
+    const getExp = 121;
+    const userData = await usersData.get(event.senderID);
 
-        const flagStatsArray = Object.entries(flagWins);
-        flagStatsArray.sort((a, b) => b[1] - a[1]);
+    if (event.senderID !== author) {
+      return api.sendMessage("⚠️ | Ei challenge ta tomar na, baby! 🐸", event.threadID, event.messageID);
+    }
 
-        let message = "Flag Game Rankings:\n\n";
-        let i = 0;
-        for (const [userID, winCount] of flagStatsArray) {
-          const userName = await usersData.getName(userID);
-          message += `${i + 1}. ${userName}: ${winCount} wins\n`;
-          i++;
-        }
+    const reply = event.body.toLowerCase();
+    await api.unsendMessage(Reply.messageID);
 
-        return api.sendMessage(message, event.threadID, event.messageID);
-      }
-    } catch (error) {
-      console.error(`Error: ${error.message}`);
-      api.sendMessage(
-        `Error: ${error.message}`,
+    if (reply === flag.toLowerCase()) {
+      userData.money += getCoin;
+      userData.exp += getExp;
+      await usersData.set(event.senderID, userData);
+
+      return api.sendMessage(
+        `✅ | 𝐂𝐨𝐫𝐫𝐞𝐜𝐭 𝐀𝐧𝐬𝐰𝐞𝐫! 🥳\n━━━━━━━━━━━━━━\n🏅 𝐑𝐞𝐰𝐚𝐫𝐝𝐬:\n➤ 💰 +${getCoin} coins\n➤ ✨ +${getExp} exp\n━━━━━━━━━━━━━━\nKeep playing and become the Flag Master! 🏆`,
         event.threadID,
-        event.messageID,
+        event.messageID
+      );
+    } else {
+      return api.sendMessage(
+        `❌ | 𝐖𝐫𝐨𝐧𝐠 𝐀𝐧𝐬𝐰𝐞𝐫! 😢\n━━━━━━━━━━━━━━\n💡 Correct answer was: 🌍 ${flag}\n━━━━━━━━━━━━━━\nTry again next time, explorer! 🧭`,
+        event.threadID,
+        event.messageID
       );
     }
   },
+
+  onStart: async function ({ api, event, usersData }) {
+    try {
+      const userData = await usersData.get(event.senderID) || {};
+      const now = Date.now();
+
+      // Initialize or reset usage tracking
+      if (!userData.flagGameUsage) {
+        userData.flagGameUsage = {
+          count: 0,
+          lastReset: now
+        };
+      }
+
+      if (now - userData.flagGameUsage.lastReset >= RESET_TIME) {
+        userData.flagGameUsage.count = 0;
+        userData.flagGameUsage.lastReset = now;
+      }
+
+      // Limit check
+      if (userData.flagGameUsage.count >= USAGE_LIMIT) {
+        const remainingTime = RESET_TIME - (now - userData.flagGameUsage.lastReset);
+        const minutes = Math.ceil(remainingTime / (60 * 1000));
+        return api.sendMessage(
+          `⏳ | 𝐋𝐢𝐦𝐢𝐭 𝐫𝐞𝐚𝐜𝐡𝐞𝐝!\n━━━━━━━━━━━━━━\nYou’ve played this game 15 times already.\nPlease wait ${minutes} more minutes to play again.\n━━━━━━━━━━━━━━\n🎮 Keep your mind sharp, champ!`,
+          event.threadID,
+          event.messageID
+        );
+      }
+
+      // Increase usage count and save
+      userData.flagGameUsage.count += 1;
+      await usersData.set(event.senderID, userData);
+
+      // Fetch and send flag
+      const apiUrl = await baseApiUrl();
+      const response = await axios.get(`${apiUrl}/api/flag`, {
+        responseType: "json",
+        headers: { 'User-Agent': 'Mozilla/5.0' }
+      });
+
+      const { link, country } = response.data;
+      const imageStream = await axios({
+        method: "GET",
+        url: link,
+        responseType: "stream",
+        headers: { 'User-Agent': 'Mozilla/5.0' }
+      });
+
+      api.sendMessage(
+        {
+          body: "🌍 | 𝐅𝐥𝐚𝐠 𝐆𝐚𝐦𝐞 𝐓𝐢𝐦𝐞!\n━━━━━━━━━━━━━━\nCan you guess the name of this country’s flag?\nReply within 40 seconds to answer! ⏱️",
+          attachment: imageStream.data
+        },
+        event.threadID,
+        (error, info) => {
+          global.GoatBot.onReply.set(info.messageID, {
+            commandName: this.config.name,
+            type: "reply",
+            messageID: info.messageID,
+            author: event.senderID,
+            flag: country
+          });
+
+          setTimeout(() => {
+            api.unsendMessage(info.messageID);
+          }, 40000);
+        },
+        event.messageID
+      );
+    } catch (error) {
+      console.error(`Error: ${error.message}`);
+      api.sendMessage(
+        `🚨 | 𝐄𝐫𝐫𝐨𝐫 𝐨𝐜𝐜𝐮𝐫𝐫𝐞𝐝:\n${error.message}`,
+        event.threadID,
+        event.messageID
+      );
+    }
+  }
 };
