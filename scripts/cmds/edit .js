@@ -11,7 +11,7 @@ countDown: 5,
 role: 0,
 shortDescription: { en: "Edit image using prompt" },
 longDescription: { en: "Edit an uploaded image based on your prompt." },
-category: "image",
+category: "ai",
 guide: { en: "{p}edit [prompt] (reply to image)" }
 },
 
@@ -20,11 +20,11 @@ const prompt = args.join(" ");
 const repliedImage = event.messageReply?.attachments?.[0];
 
 if (!prompt || !repliedImage || repliedImage.type !== "photo") {
-return message.reply("⚠️ | Please reply to a photo with your prompt to edit it.");
+return message.reply("⚠ | Please reply to a photo with your prompt to edit it.");
 }
 
 const imgPath = path.join(__dirname, "cache", `${Date.now()}_edit.jpg`);
-const waitMsg = await message.reply(`🧪 Editing image for: "${prompt}"...\nPlease wait...`);
+const waitMsg = await message.reply(`🧪 Editing image for: "${prompt}"...\nPlease wait...`); 2 
 
 try {
 const imgURL = repliedImage.url;
