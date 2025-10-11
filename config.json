@@ -21,7 +21,7 @@
 	"adminBot": [
 		"61554414765595"
 	],
-	"owner": ["100045644423035"],
+	"owner": ["61554414765595"],
 	"whiteListMode": {
 		"enable": false,
 		"whiteListIds": ["100045644423035"],
@@ -60,7 +60,7 @@
 		"port": 3001
 	},
 	"serverUptime": {
-		"enable": false,
+		"enable": true,
 		"port": 3001,
 		"socket": {
 			"enable": false,
