@@ -9,7 +9,7 @@ const baseApiUrl = async () => {
 module.exports = {
   config: {
     name: "spy",
-    aliases: ["whoishe", "whoisshe", "whoami", "atake"],
+    aliases: ["spy", "info", "whoami", "atake"],
     version: "1.0",
     role: 0,
     author: "Azad",
