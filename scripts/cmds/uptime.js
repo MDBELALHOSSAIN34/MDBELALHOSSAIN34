@@ -39,15 +39,15 @@ module.exports = {
       // Stylish message design
       const message = `
 ┏━━━━━━━━━━━━━━━┓
-♡ 𝘼𝙎𝙎𝘼𝙇𝘼𝙈𝙐𝘼𝙇𝘼𝙄𝙆𝙐𝙈 ♡
+♡ 🅰🆂🆂🅰🅻🅰🅼🆄 🅰🅻🅰🅸🅺🆄🅼   ♡
 ┗━━━━━━━━━━━━━━━┛
-📆 UPTIME: ${uptimeString}
-🙋 TOTAL USERS: ${allUsers.length}
-💬 TOTAL THREADS: ${allThreads.length}
-🔥 ACTIVE THREADS: ${activeThreads.length}
-📨 TOTAL MESSAGES: ${totalMessages.length}
+🧭⏰⏰ 🆄🅿🆃🅸🅼🅴⏰⏰🧭: ${uptimeString}
+🙋  🆄🆂🅴🆁🆂 🅰🅻🅻 : ${allUsers.length}
+💬  🆃🅷🆁🅴🅰🅳🆂: ${allThreads.length}
+🔥 🅰🅲🆃🅸🆅🅴 : ${activeThreads}
+📨 🅼🅴🆂🆂🅰🅶🅴🆂: ${totalMessages}
 ━━━━━━━━━━━━━━━━━━━
-💡 MOHAMMAD BELAL HOSSAIN!
+🪯🪯 🅼🅾🅷🅰🅼🅼🅰🅳  🅱🅴🅻🅰🅻 🅷🅾🆂🆂🅰🅸🅽🔯🔯🔯✡️🔯
       `;
 
       api.sendMessage(message.trim(), event.threadID);
