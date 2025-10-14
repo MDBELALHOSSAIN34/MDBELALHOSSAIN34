@@ -10,8 +10,8 @@ async function getStream(url) {
 
 module.exports = {
   config: {
-    name: "song",
-    aliases: ["sing"],
+    name: "sing",
+    aliases: ["song","sing"],
     version: "0.0.1",
     author: "ArYAN",
     countDown: 5,
