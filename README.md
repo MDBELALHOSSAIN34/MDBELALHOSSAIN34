@@ -1,7 +1,7 @@
 # ShAn.s-Bot
 
 ## Original Source Code
-- **GitHub Repository:** [https://github.com/ntkhang03/Goat-Bot-V2](https://github.com/ntkhang03/Goat-Bot-V2)
+- **GitHub Repository:** [(https://github.com/MMBBHHMMBBHHBOT/MMBBHHMMBBBOT)]
 
 ## Project Updates
 This version includes fixes by Ew'r ShAn's to the FCA (Facebook Chat API) implementation.
