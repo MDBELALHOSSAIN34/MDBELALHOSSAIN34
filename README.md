@@ -1,7 +1,8 @@
 # ShAn.s-Bot
 
-### Ran.s bot
-name: SH AN
+### original ran bot**
+- ** original bot:**
+**[- name: SH AN
 
 on:
   push:
@@ -27,7 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install
-    - run: npm start
+    - run: npm start -]**
 
 ## Original Source Code
 - **GitHub Repository:** [(https://github.com/MMBBHHMMBBHHBOT/MMBBHHMMBBBOT)]
