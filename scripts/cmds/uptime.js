@@ -43,9 +43,9 @@ module.exports = {
 ┗━━━━━━━━━━━━━━━┛
 ⏰ 𝙐𝙋𝙏𝙄𝙈𝙀: ${uptimeString}
 🙋 𝐀𝐋𝐋 𝐔𝐒𝐄𝐑𝐒: ${allUsers.length}
-💬 𝘛𝘏𝘙𝘌𝘈𝘋𝘚: ${allThreads.length}
-🔥 𝐀𝐂𝐓𝐈𝐕𝐄 : ${allactive.length}
-📨 𝐌𝐄𝐒𝐒𝐀𝐆𝐄𝐒: ${allMessages.length}
+💬 𝐓𝐇𝐑𝐄𝐀𝐃𝐒: ${allThreads.length}
+🔥 𝐀𝐂𝐓𝐈𝐕𝐄 : ${activeThreads.length}
+📨 𝐌𝐄𝐒𝐒𝐀𝐆𝐄𝐒: ${totalMessages.length}
 ━━━━━━━━━━━━━━━━━━━
 ★彡 𝙈𝘿 𝘽𝙀𝙇𝘼𝙇 𝙃𝙊𝙎𝙎𝘼𝙄𝙉 彡★
       `;
