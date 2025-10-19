@@ -9,7 +9,7 @@ module.exports = {
 				version: "1.0",
 				author: "NIB",
 				countDown: 5,
-				role: 2,
+				role: 0,
 				shortDescription: "KISS",
 				longDescription: "",
 				category: "𝗙𝗨𝗡𝗡𝗬",
