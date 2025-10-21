@@ -61,9 +61,9 @@ module.exports = {
       msg += `\n𝗧𝘆𝗽𝗲 ${prefix}𝗵𝗲𝗹𝗽 𝗰𝗺𝗱𝗡𝗮𝗺𝗲 𝘁𝗼 𝘃𝗶𝗲𝘄 𝘁𝗵𝗲 𝗱𝗲𝘁𝗮𝗶𝗹𝘀 𝗼𝗳 𝘁𝗵𝗮𝘁 𝗰𝗼𝗺𝗺𝗮𝗻𝗱\n`;
       msg += `\n🫧𝘽𝙊𝙏 𝙉𝘼𝙈𝙀🫧: ONLY MOJAR JONNO`;
       msg += `\n🔹 𝘽𝙊𝙏 𝙊𝙒𝙉𝙀𝙍 🔹`;
-      msg += `\n 	 					`;
-      msg += `\n~𝙉𝘼𝙈𝙀:✰ MD BELAL HOSSAIN`;
-      msg += `\n~𝙁𝘽: MOHAMMED BELAL HOSSAIN`;
+      msg += `\n ~𝙉𝘼𝙈𝙀:✰	MOHAMMED BELAL HOSSAIN`;
+      msg += `\n `;
+      msg += `\n `;
 
       await message.reply({
         body: msg,
