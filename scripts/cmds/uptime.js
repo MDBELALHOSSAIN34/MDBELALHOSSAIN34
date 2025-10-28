@@ -2,7 +2,7 @@ const os = require("os");
 
 module.exports = {
   config: {
-    name: "up",
+    name: "uptime",
     version: "2.2",
     author: "xnil6x",
     role: 0,
