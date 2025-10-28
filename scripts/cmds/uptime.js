@@ -1,59 +1,58 @@
+const os = require("os");
+
 module.exports = {
   config: {
     name: "uptime",
-    aliases:["up", "upt"],
-    version: "1.7",
-    author: "Anas x 114",
-    role: 2,
-    shortDescription: {
-      en: "Get stylish bot stats and uptime!"
-    },
-    longDescription: {
-      en: "Displays bot uptime, user, thread stats, and total messages processed in a modern and visually engaging style."
-    },
+    version: "2.2",
+    author: "xnil6x",
+    role: 0,
+    shortDescription: "Show bot uptime info",
+    longDescription: "Display stylish uptime, system stats, RAM, prefix, threads, etc.",
     category: "system",
-    guide: {
-      en: "Use {p}uptime to display the bot's stats in style."
-    }
+    guide: "{pn}"
   },
-  onStart: async function ({ api, event, usersData, threadsData, messageCount }) {
-    try {
-      const allUsers = await usersData.getAll();
-      const allThreads = await threadsData.getAll();
-      const uptime = process.uptime();
 
-      // Calculate formatted uptime
-      const days = Math.floor(uptime / 86400);
-      const hours = Math.floor((uptime % 86400) / 3600);
-      const minutes = Math.floor((uptime % 3600) / 60);
-      const seconds = Math.floor(uptime % 60);
+  onStart: async function ({ message, threadsData }) {
+    const uptime = process.uptime();
+    const days = Math.floor(uptime / (60 * 60 * 24));
+    const hours = Math.floor((uptime % (60 * 60 * 24)) / (60 * 60));
+    const minutes = Math.floor((uptime % (60 * 60)) / 60);
+    const seconds = Math.floor(uptime % 60);
 
-      const uptimeString = `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    const uptimeString = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
-      // Active threads (threads with activity)
-      const activeThreads = allThreads.filter(thread => thread.messageCount > 0).length;
+    const cpu = os.cpus()[0].model;
+    const cores = os.cpus().length;
+    const platform = os.platform();
+    const arch = os.arch();
+    const nodeVersion = process.version;
+    const hostname = os.hostname();
 
-      // Total messages processed
-      const totalMessages = messageCount || 0; // Replace with actual message count logic if needed
+    const totalMem = os.totalmem() / 1024 / 1024;
+    const freeMem = os.freemem() / 1024 / 1024;
+    const usedMem = totalMem - freeMem;
 
-      // Stylish message design
-      const message = `
-┏━━━━━━━━━━━━━━━┓
-★彡 𝙐𝙋𝙏𝙄𝙈𝙀 𝙍𝙊𝘽𝙊𝙏 彡★
-┗━━━━━━━━━━━━━━━┛
-⏰ 𝙐𝙋𝙏𝙄𝙈𝙀: ${uptimeString}
-🙋 𝐀𝐋𝐋 𝐔𝐒𝐄𝐑𝐒: ${allUsers.length}
-💬 𝐓𝐇𝐑𝐄𝐀𝐃𝐒: ${allThreads.length}
-🔥 𝐀𝐂𝐓𝐈𝐕𝐄 : ${activeThreads.length}
-📨 𝐌𝐄𝐒𝐒𝐀𝐆𝐄𝐒: ${totalMessages.length}
-━━━━━━━━━━━━━━━━━━━
-★彡 𝙈𝘿 𝘽𝙀𝙇𝘼𝙇 𝙃𝙊𝙎𝙎𝘼𝙄𝙉 彡★
-      `;
+    const prefix = global.GoatBot.config.PREFIX || "#";
+    const totalThreads = await threadsData.getAll().then(t => t.length);
+    const totalCommands = global.GoatBot.commands.size;
 
-      api.sendMessage(message.trim(), event.threadID);
-    } catch (error) {
-      console.error(error);
-      api.sendMessage("An error occurred while retrieving bot stats.", event.threadID);
-    }
+    const line = "═".repeat(40);
+    const box = `
+╔${line}╗
+║ 🛠️  𝙍𝙊𝘽𝙊𝙏 𝗨𝗽𝘁𝗶𝗺𝗲 & 𝗦𝘆𝘀𝘁𝗲𝗺 𝗦𝘁𝗮𝘁𝘀
+╟${line}╢
+║ ⏳ 𝙐𝙋𝙏𝙄𝙈𝙀       : ${uptimeString}
+║ ⚙️ 𝗖𝗣𝗨           : ${cpu} (${cores} cores)
+║ 🧠 𝗥𝗔𝗠 𝗨𝘀𝗲𝗱     : ${usedMem.toFixed(2)} MB / ${totalMem.toFixed(2)} MB
+║ 💾 𝗣𝗹𝗮𝘁𝗳𝗼𝗿𝗺      : ${platform} (${arch})
+║ 🖥️ 𝗛𝗼𝘀𝘁𝗻𝗮𝗺𝗲      : ${hostname}
+║ 🔢 𝗧𝗵𝗿𝗲𝗮𝗱𝘀      : ${totalThreads}
+║ 🧩 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀     : ${totalCommands}
+║ 🧪 𝗡𝗼𝗱𝗲.𝗷𝘀       : ${nodeVersion}
+║ 🪄 𝗣𝗿𝗲𝗳𝗶𝘅        : ${prefix}
+║ 👑 𝗗𝗲𝘃𝗲𝗹𝗼𝗽𝗲𝗿     : ★彡 𝙈𝘿 𝘽𝙀𝙇𝘼𝙇 𝙃𝙊𝙎𝙎𝘼𝙄𝙉 彡★
+╚${line}╝`;
+
+    message.reply(box);
   }
 };
