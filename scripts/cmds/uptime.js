@@ -2,7 +2,7 @@ const os = require("os");
 
 module.exports = {
   config: {
-    name: "uptime","up",
+    name: "uptime",
     version: "2.2",
     author: "xnil6x",
     role: 0,
@@ -41,7 +41,7 @@ module.exports = {
 ╔${line}╗
 ║ 🛠️  𝙍𝙊𝘽𝙊𝙏 𝗨𝗽𝘁𝗶𝗺𝗲 & 𝗦𝘆𝘀𝘁𝗲𝗺 𝗦𝘁𝗮𝘁𝘀
 ╟${line}╢
-║ ⏳ 𝙐𝙋𝙏𝙄𝙈𝙀: ${uptimeString}
+║⏳𝙐𝙋𝙏𝙄𝙈𝙀:${uptimeString}
 ║ ⚙️ 𝗖𝗣𝗨 : ${cpu} (${cores} cores)
 ║ 🧠 𝗥𝗔𝗠 𝗨𝘀𝗲𝗱: ${usedMem.toFixed(2)} MB / ${totalMem.toFixed(2)} MB
 ║ 💾 𝗣𝗹𝗮𝘁𝗳𝗼𝗿𝗺: ${platform} (${arch})
