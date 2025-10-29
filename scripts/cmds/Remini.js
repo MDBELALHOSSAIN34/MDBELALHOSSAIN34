@@ -1,48 +1,49 @@
-const fs = require("fs");
-const path = require("path");
 const axios = require("axios");
 
 module.exports = {
   config: {
     name: "4k",
-    aliases: ["enhance", "enhanceimg"],
-    version: "1.0",
-    author: "SaGor",
+    aliases: ["upscale"],
+    version: "1.1",
     role: 0,
-    category: "photo",
-    shortDescription: "Enhance image using Remini API",
-    guide: "{pn} reply to an image or send image URL"
+    author: "ArYAN",
+    countDown: 5,
+    longDescription: "Upscale images to 4K resolution.",
+    category: "image",
+    guide: {
+      en: "${pn} reply to an image to upscale it to 4K resolution."
+    }
   },
 
-  onStart: async function({ api, event, args }) {
-    let imageUrl;
-
-    if (event.messageReply && event.messageReply.attachments.length > 0) {
-      imageUrl = event.messageReply.attachments[0].url;
-    } else if (args[0]) {
-      imageUrl = args[0];
-    } else {
-      return api.sendMessage("❌ Please reply to an image or provide a URL.", event.threadID);
+  onStart: async function ({ message, event }) {
+    if (
+      !event.messageReply ||
+      !event.messageReply.attachments ||
+      !event.messageReply.attachments[0] ||
+      event.messageReply.attachments[0].type !== "photo"
+    ) {
+      return message.reply("📸 Please reply to an image to upscale it.");
     }
 
-    const wait = await api.sendMessage("🔍 Enhancing image, please wait...", event.threadID);
+    const imgurl = encodeURIComponent(event.messageReply.attachments[0].url);
+    const upscaleUrl = `https://aryan-xyz-upscale-api-phi.vercel.app/api/upscale-image?imageUrl=${imgurl}&apikey=ArYANAHMEDRUDRO`;
 
-    try {
-      const apiKey = "4fe7e522-70b7-420b-a746-d7a23db49ee5";
+    message.reply("🔄 Processing your image, please wait...", async (err, info) => {
+      try {
+        const response = await axios.get(upscaleUrl);
+        const imageUrl = response.data.resultImageUrl;
+        const attachment = await global.utils.getStreamFromURL(imageUrl, "upscaled.png");
 
-      const response = await axios.get(`https://kaiz-apis.gleeze.com/api/remini?url=${encodeURIComponent(imageUrl)}&stream=true&apikey=${apiKey}`, {
-        responseType: "arraybuffer"
-      });
+        message.reply({
+          body: "✅ Your 4K upscaled image is ready!",
+          attachment
+        });
 
-      const filePath = path.join(__dirname, `/cache/remini_${Date.now()}.png`);
-      fs.writeFileSync(filePath, response.data);
-
-      await api.unsendMessage(wait.messageID);
-      api.sendMessage({ body: "✅ Image enhanced successfully!", attachment: fs.createReadStream(filePath) }, event.threadID, () => fs.unlinkSync(filePath));
-
-    } catch (err) {
-      await api.unsendMessage(wait.messageID);
-      api.sendMessage("❌ Failed to enhance image. Please check the URL or API key.", event.threadID);
-    }
+        message.unsend(info.messageID);
+      } catch (error) {
+        console.error("Upscale Error:", error.message);
+        message.reply("❌ Error occurred while upscaling the image.");
+      }
+    });
   }
 };
