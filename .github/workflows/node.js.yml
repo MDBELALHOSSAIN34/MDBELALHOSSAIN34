@@ -1,10 +1,10 @@
-name: main
+name: shan
 
 on:
   push:
-    branches: [ main ]
+    branches: [ shan ]
   pull_request:
-    branches: [ main ]
+    branches: [ shan ]
 
 jobs:
   build:
