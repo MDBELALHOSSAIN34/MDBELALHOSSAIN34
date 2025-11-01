@@ -2,7 +2,7 @@ const fs = require("fs");
 
 const COLORS = ["🔴", "🟠", "🟡", "🟢", "🔵", "🟣", "⚫", "⚪"];
 const LIMIT_INTERVAL_HOURS = 12;
-const MAX_PLAYS = 20;
+const MAX_PLAYS =2020;
 
 module.exports = {
   config: {
