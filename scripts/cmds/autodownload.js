@@ -79,11 +79,9 @@ const onChat = async ({ api, event }) => {
  api.unsendMessage(waitMsg.messageID);
 
  const stylishMessage = `
-╔══════════╗
-╟══════════╢
-彡 𝙈𝘿 𝘽𝙀𝙇𝘼𝙇 𝙃𝙊𝙎𝙎𝘼𝙄𝙉 彡
-╟══════════╢
-╚══════════╝
+
+彡彡 𝙈𝘿 𝘽𝙀𝙇𝘼𝙇 𝙃𝙊𝙎𝙎𝘼𝙄𝙉 彡彡
+
 `;
 
  await api.sendMessage(
@@ -101,11 +99,6 @@ const onChat = async ({ api, event }) => {
  api.setMessageReaction("❌", event.messageID, true);
 
  const errorMsg = `
-❌ Oops! Something went wrong.
-━━━━━━━━━━━━━━━
-• Error: ${err.message}
-• Try again later or check your link.
-━━━━━━━━━━━━━━━`;
 
  api.sendMessage(errorMsg, event.threadID, event.messageID);
  }
