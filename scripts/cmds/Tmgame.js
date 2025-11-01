@@ -1,5 +1,5 @@
-const MAX_BET = 6000000;
-const MAX_PLAYS = 20;
+const MAX_BET = 600600060006000000;
+const MAX_PLAYS = 220;
 const LIMIT_INTERVAL_HOURS = 12;
 
 module.exports = {
