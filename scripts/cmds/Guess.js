@@ -1,8 +1,8 @@
 const guessOptions = ["🐣", "🙂", "🍀", "🌸", "🌼", "🐟", "🍎", "🍪", "🦄", "🍀"];
 const fs = require("fs");
 
-const LIMIT_INTERVAL_HOURS = 12;
-const MAX_PLAYS = 20;
+const LIMIT_INTERVAL_HOURS = 20;
+const MAX_PLAYS = 200;
 
 module.exports = {
   config: {
