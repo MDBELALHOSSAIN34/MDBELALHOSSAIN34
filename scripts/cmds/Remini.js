@@ -1,49 +1,81 @@
 const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+
+// Load Base API URL from GitHub
+const baseApiUrl = async () => {
+  const base = await axios.get(
+    "https://raw.githubusercontent.com/xnil6x404/Api-Zone/refs/heads/main/Api.json"
+  );
+  return base.data.x;
+};
+
+// Save image to ./cache folder
+const downloadToTempFile = async (url) => {
+  const tempDir = path.join(__dirname, "cache");
+  if (!fs.existsSync(tempDir)) fs.mkdirSync(tempDir);
+
+  const tempPath = path.join(tempDir, `${Date.now()}_upscale.jpg`);
+  const response = await axios.get(url, { responseType: "stream" });
+
+  const writer = fs.createWriteStream(tempPath);
+  response.data.pipe(writer);
+
+  await new Promise((resolve, reject) => {
+    writer.on("finish", resolve);
+    writer.on("error", reject);
+  });
+
+  return tempPath;
+};
 
 module.exports = {
   config: {
-    name: "4k",
-    aliases: ["upscale"],
-    version: "1.1",
-    role: 0,
-    author: "ArYAN",
+    name: "upscale",
+    aliases: ["4k"],
+    version: "1.2",
+    author: "X Nil",
     countDown: 5,
-    longDescription: "Upscale images to 4K resolution.",
-    category: "image",
+    role: 0,
+    shortDescription: "Upscale image to 4K",
+    longDescription: "Reply to an image to upscale it to 4K with a TinyURL",
+    category: "tools",
     guide: {
-      en: "${pn} reply to an image to upscale it to 4K resolution."
+      en: "{pn} (reply to an image)"
     }
   },
 
-  onStart: async function ({ message, event }) {
-    if (
-      !event.messageReply ||
-      !event.messageReply.attachments ||
-      !event.messageReply.attachments[0] ||
-      event.messageReply.attachments[0].type !== "photo"
-    ) {
-      return message.reply("📸 Please reply to an image to upscale it.");
+  onStart: async function ({ api, event }) {
+    const reply = event.messageReply;
+
+    if (!reply || !reply.attachments || reply.attachments.length === 0 || reply.attachments[0].type !== "photo") {
+      return api.sendMessage("❌ Please reply to an image to upscale it to 4K.", event.threadID, event.messageID);
     }
 
-    const imgurl = encodeURIComponent(event.messageReply.attachments[0].url);
-    const upscaleUrl = `https://aryan-xyz-upscale-api-phi.vercel.app/api/upscale-image?imageUrl=${imgurl}&apikey=ArYANAHMEDRUDRO`;
+    const imageUrl = reply.attachments[0].url;
 
-    message.reply("🔄 Processing your image, please wait...", async (err, info) => {
-      try {
-        const response = await axios.get(upscaleUrl);
-        const imageUrl = response.data.resultImageUrl;
-        const attachment = await global.utils.getStreamFromURL(imageUrl, "upscaled.png");
+    try {
+      const res = await axios.get(`${await baseApiUrl()}/api/tools/upscale/v1?url=${encodeURIComponent(imageUrl)}`);
+      const upscaleUrl = res.data?.result;
 
-        message.reply({
-          body: "✅ Your 4K upscaled image is ready!",
-          attachment
-        });
-
-        message.unsend(info.messageID);
-      } catch (error) {
-        console.error("Upscale Error:", error.message);
-        message.reply("❌ Error occurred while upscaling the image.");
+      if (!upscaleUrl) {
+        return api.sendMessage("❌ Upscale failed. No image returned.", event.threadID, event.messageID);
       }
-    });
+
+      const tinyRes = await axios.get(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(upscaleUrl)}`);
+      const shortUrl = tinyRes.data;
+
+      const filePath = await downloadToTempFile(upscaleUrl);
+      const fileStream = fs.createReadStream(filePath);
+
+      api.sendMessage({
+        body: `✅ Upscaled to 4K!\n🔗 URL: ${shortUrl}`,
+        attachment: fileStream
+      }, event.threadID, () => fs.unlinkSync(filePath), event.messageID);
+
+    } catch (err) {
+      console.error(err);
+      api.sendMessage("❌ Error upscaling image. Please try again later.", event.threadID, event.messageID);
+    }
   }
 };
