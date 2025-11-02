@@ -1,6 +1,4 @@
-# ShAn.s-Bot
-## Original Source Code
-- **GitHub Repository:** [(https://github.com/MMBBHHMMBBHHBOT/MMBBHHMMBBHHBOT)]
+# 𝙈𝘿 𝘽𝙀𝙇𝘼𝙇 𝙃𝙊𝙎𝙎𝘼𝙄𝙉
 
 ### Notes
 - Ensure you extract cookies from the C3C files
