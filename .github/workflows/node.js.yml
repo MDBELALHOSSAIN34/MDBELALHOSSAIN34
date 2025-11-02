@@ -1,10 +1,10 @@
-name: shan
+name: Belal
 
 on:
   push:
-    branches: [ shan ]
+    branches: [ Belal ]
   pull_request:
-    branches: [ shan ]
+    branches: [ Belal ]
 
 jobs:
   build:
