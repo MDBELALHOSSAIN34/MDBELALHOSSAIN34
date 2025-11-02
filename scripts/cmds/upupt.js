@@ -38,13 +38,20 @@ module.exports = {
 
     const line = "═".repeat(40);
     const box = `
-╔═══════════╗
-║ ⏰  𝙍𝙊𝘽𝙊𝙏 𝙐𝙋𝙏𝙄𝙈𝙀 ⏰
-╠═══════════╣
-║ 𝙐𝙋𝙏𝙄𝙈𝙀: ${uptimeString}
-╠═══════════╣
-║彡 𝙈𝘿 𝘽𝙀𝙇𝘼𝙇 𝙃𝙊𝙎𝙎𝘼𝙄𝙉 彡
-╚═══════════╝`;
+╔${line}╗
+║ 🛠️  𝙍𝙊𝘽𝙊𝙏 𝗨𝗽𝘁𝗶𝗺𝗲 & 𝗦𝘆𝘀𝘁𝗲𝗺 𝗦𝘁𝗮𝘁𝘀
+╟${line}╢
+║⏳𝙐𝙋𝙏𝙄𝙈𝙀: ${uptimeString}
+║ ⚙️ 𝗖𝗣𝗨 : ${cpu} (${cores} cores)
+║ 🧠 𝗥𝗔𝗠 𝗨𝘀𝗲𝗱: ${usedMem.toFixed(2)} MB / ${totalMem.toFixed(2)} MB
+║ 💾 𝗣𝗹𝗮𝘁𝗳𝗼𝗿𝗺: ${platform} (${arch})
+║ 🖥️ 𝗛𝗼𝘀𝘁𝗻𝗮𝗺𝗲: ${hostname}
+║ 🔢 𝗧𝗵𝗿𝗲𝗮𝗱𝘀: ${totalThreads}
+║ 🧩 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀: ${totalCommands}
+║ 🧪 𝗡𝗼𝗱𝗲.𝗷𝘀: ${nodeVersion}
+║ 🪄 𝗣𝗿𝗲𝗳𝗶𝘅 : ${prefix}
+║ 👑 𝗗𝗲𝘃𝗲𝗹𝗼𝗽𝗲𝗿:★彡 𝙈𝘿 𝘽𝙀𝙇𝘼𝙇 𝙃𝙊𝙎𝙎𝘼𝙄𝙉 彡★
+╚${line}╝`;
 
     message.reply(box);
   }
