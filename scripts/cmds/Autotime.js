@@ -7,7 +7,7 @@ module.exports.config = {
   'name': 'autotime',
   'version': "2.0.0",
   'role': 0x0,
-  'author': "MR᭄﹅ MAHABUB﹅ メꪜ",
+  'author': "Belal",
   'description': "autotime",
   'category': "AutoTime",
   'countDown': 0x3
