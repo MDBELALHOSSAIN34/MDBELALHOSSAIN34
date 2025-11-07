@@ -1,0 +1,2 @@
+If you facing cookies missing or account.dev.txt file missing error, than put your cookies in account.txt and make blank file account.dev.txt
+If you facing problem with npm than update you package.json and package-lock.json from this repo and use node version 20 with npm version 10
