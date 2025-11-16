@@ -97,30 +97,30 @@ module.exports = {
       }
 
       const finalMessage = `
-┌────────────────────┐
-│ ⚡ 𝙔𝙊𝙐𝙍 𝘽𝙊𝙏 𝙐𝙋𝙏𝙄𝙈𝙀 ⚡  │
-├────────────────────┤
-│ 🤖 Bot: ${botName}    
-│ 🗝️ Prefix: ${prefix}     
-│ 👑 Admin: ${adminName}  
-├────────────────────┤
-│ 👥 Members: ${allUsers.length.toLocaleString()}
-│ 📂 Groups: ${allThreads.length.toLocaleString()}  
-├────────────────────┤
-│ ⏳ Uptime: ${uptimeFormatted} 
-│ 🖥️ Sys Up: ${sysUptimeFormatted}     
-│ 📅 Date: ${date}      
-│ 🕓 Time: ${time}      
-├────────────────────┤
-│ 💽 Mem: ${memoryUsage}MB / ${totalMemory}MB (${memoryUsagePercent}%)  
-│ 🆓 Free: ${freeMemory}MB  
-│ 🖥 OS: ${platform} ${osArch} ${osRelease} 
-│ 📦 Node: ${nodeVersion} 
-├────────────────────┤
-│ 🛠 CPU: ${cpuModel}   
-│ ⚙️ Cores: ${cpuCores} @ ${cpuSpeed}GHz
-│ 🌍 IP: ${ipAddress}  
-└────────────────────┘
+╔════════════════════════════════════════╗
+║ ⚡ 𝙔𝙊𝙐𝙍 𝘽𝙊𝙏 𝙐𝙋𝙏𝙄𝙈𝙀 ⚡✅
+╟════════════════════════════════════════╢
+║ 🤖 Bot: ${botName}    
+║ 🗝 Prefix: ${prefix}     
+║ 👑 Admin: ${adminName}  
+╟════════════════════════════════════════╢
+║ 👥 Members: ${allUsers.length.toLocaleString()}
+║ 📂 Groups: ${allThreads.length.toLocaleString()}  
+╟════════════════════════════════════════╢
+║ ⏳ Uptime: ${uptimeFormatted} 
+║ 🖥 Sys Up: ${sysUptimeFormatted}     
+║ 📅 Date: ${date}      
+║ 🕓 Time: ${time}      
+╟════════════════════════════════════════╢
+║ 💽 Mem: ${memoryUsage}MB / ${totalMemory}MB (${memoryUsagePercent}%)  
+║ 🆓 Free: ${freeMemory}MB  
+║ 🖥 OS: ${platform} ${osArch} ${osRelease} 
+║ 📦 Node: ${nodeVersion} 
+╟════════════════════════════════════════╢
+║ 🛠 CPU: ${cpuModel}   
+║ ⚙ Cores: ${cpuCores} @ ${cpuSpeed}GHz
+║ 🌍 IP: ${ipAddress}  
+╚════════════════════════════════════════╝
 `.trim();
 
       await delay(500);
